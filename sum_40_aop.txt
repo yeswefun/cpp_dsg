@@ -1,0 +1,47 @@
+
+
+面向切面编程 (AOP, Aspect Oriented Programing)
+
+    把某一方面的一些功能提取出来与一批对象进行隔离,
+    提取之后可以对某个单方面的功能进行编程。
+
+    某个单方面的功能
+        权限检测，网络检测，埋点，日志上传
+
+
+
+把众多方法中的所有共有代码全部抽取出来, 放置到某个地方集中管理, 然后在具体运行时,
+再由容器动态织入这些共有代码的话, 最起码可以解决两个问题: 
+    
+    1.1 Android程序员在编写具体的业务逻辑处理方法时,
+        只需关心核心的业务逻辑处理,既提高了工作效率, 又使代码变更简洁优雅。
+
+    1.2在以后的维护中由于业务逻辑代码与共有代码分开存放, 
+       而且共有代码是集中存放的, 因此使维护工作变得简单轻松。
+
+    1.3面向切面编程AOP技术就是为解决这个问题而诞生的, 切面就是横切面, 代表的是一个普遍存在的共有功能,
+        例如,日志切面、权限切面 及 事务切面 等。
+
+
+
+
+
+AOP 实现形式
+
+    Aspectj
+
+    public static Object Proxy#newProxyInstance(
+        ClassLoader loader,
+        Class<?>[] interfaces,
+        InvocationHandler h) throws IllegalArgumentException
+
+        对方法的拦截处理 在 InvocationHandler 中 实现
+
+        只能代理 接口 - Retrofit
+            jdk动态生成一个对象
+
+    CGLIB动态代理
+        可以代理 抽象类
+
+    ASM
+

@@ -1,0 +1,50 @@
+
+
+面向对象七大设计原则
+
+    单一职责原则 - SRP（Single Responsibility Principle）
+        错误: 网络请求，缓存操作 混用
+        正确: 将 缓存操作 独立成一个工具类
+
+
+    开闭原则 - OCP（Open Close Principle）
+        切分 变 与 不变
+        对修改封闭，对扩展开放
+
+
+    里氏替换 - LSP（Liskyov Substitution Principle）
+        父类能出现的地方，子类也能出现
+        主要体现就是 实现(implements) 和 继承(extends)
+
+        RecyclerView.setLayoutManager
+            LinearLayoutManager
+            GridLayoutManager
+        RecyclerView.addItemDecoration
+            DividerItemDecoration
+
+
+    依赖倒转原则 - DIP（Dependence Inversion Principle）
+        针对接口抽象编程，不要针对具体实现编程
+
+        IHttpRequest - 依赖接口抽象
+            OkHttpRequest
+            XUtilsRequest
+
+
+    接口隔离原则 - ISP（Interface Segregation Principle）
+        面向接口编程
+        接口 隔离 变化
+
+
+    迪米特法则 - LOD（Law of Demeter）
+        最少知识原则
+        
+        Closeable
+            Socket.close()
+            is.close()
+            os.close()
+
+
+    组合/聚合复用原则 - CRP（Composite/Aggregate Reuse Principle）
+        组合 大于 继承
+        装饰设计模式

@@ -1,0 +1,215 @@
+
+
+
+代理设计模式
+
+
+
+
+
+
+作者：夏昊
+链接：https://www.zhihu.com/question/20794107/answer/811250346
+
+
+要理解动态代理首先要理解代理模式什么是代理模式？
+
+有一个打印机的类
+public class Printer {
+    public void print(){
+        System.out.println("打印！");
+    }
+}
+
+我想在打印之前先记录一下日志怎么做？
+
+最简单的方法：在打印的功能前面直接加上记录日志的功能。
+public class Printer {
+    public void print(){
+        System.out.println("记录日志！");
+        System.out.println("打印！");
+    }
+}
+看上去好像没有问题，但是我们修改了打印机的源代码，破坏了面向对象的开闭原则，有可能影响到其它功能。
+怎么解决呢？很容易可以想到，既然不能修改原来的代码，那我新建一个类吧。
+public class LogPrinter extends Printer {
+    public void print(){
+        System.out.println("记录日志！");
+        System.out.println("打印！");
+    }
+}
+这个类继承了打印机的类，重写了打印机的print方法，提供了记录日志的功能，以后需要打印机的时候使用这个类就好。
+问题似乎得到了解决，我们可以在这个解决方案的基础上进一步的优化：先抽象出一个接口:
+public interface IPrinter {
+    void print();
+}
+打印机类实现这个接口:
+public class Printer implements IPrinter {
+       public void print(){
+       System.out.println("打印！");
+    }
+}
+创建打印机代理类也实现该接口，在构造函数中将打印机对象传进去，
+实现接口的打印方法时调用打印机对象的打印方法并在前面加上记录日志的功能:
+public class PrinterProxy implements IPrinter {
+    private IPrinter printer;
+    public PrinterProxy(){
+        this.printer = new printer();
+    }
+    @Override
+    public void print() {
+        System.out.println("记录日志");
+        printer.print();
+    }
+}
+试一把吧：
+public class Test {
+    public static void main(String[] args) {
+        PrinterProxy proxy = new PrinterProxy();
+        proxy.print();
+    }
+}
+
+结果出来了：
+    记录日志
+    打印
+
+以后我们就可以直接实例化PrinterProxy对象调用它的打印方法了，这就是静态代理模式，
+通过抽象出接口让程序的扩展性和灵活性更高了。静态代理是完美无缺的吗？
+
+考虑一下，如果我的打印机类中还有别的方法，也需要加上记录日志的功能，就不得不将记录日志的功能写n遍。
+进一步如果我还有电视机，电冰箱的类里面的所有方法也需要加上记录日志的功能，那要重复的地方就更多了。
+
+
+动态代理闪亮登场：
+
+要想不重复写记录日志的功能，针对每一个接口实现一个代理类的做法肯定不可行了，可不可以让这些代理类的对象自动生成呢？
+
+
+
+
+
+
+
+
+
+静态代理
+
+```
+public interface IMachine {
+    void start();
+}
+
+public class Printer implements IMachine {
+    public void start(){
+       System.out.println("打印机启动");
+    }
+}
+public class Computer implements IMachine {
+    public void start(){
+       System.out.println("计算机启动");
+    }
+}
+
+public class MachineProxy implements IMachine {
+    
+    private IMachine machine;
+
+    public MachineProxy(IMachine machine){
+        this.machine = machine;
+    }
+
+    @Override
+    public void start() {
+        System.out.println("****************** 记录日志");
+        machine.start();
+    }
+}
+
+public class Test {
+    public static void main(String[] args) {
+        MachineProxy proxy1 = new MachineProxy(new Printer());
+        proxy1.start();
+
+        MachineProxy proxy2 = new MachineProxy(new Computer());
+        proxy2.start();
+    }
+}
+```
+
+
+
+静态代理不足
+
+```
+public interface IMachine {
+    void start();
+    void work();
+    void stop();
+    //更多的方法 ...
+}
+
+public class Printer implements IMachine {
+    public void start(){
+       System.out.println("打印机启动");
+    }
+    public void work(){
+       System.out.println("打印机工作");
+    }
+    public void stop(){
+       System.out.println("打印机关机");
+    }
+}
+public class Computer implements IMachine {
+    public void start(){
+       System.out.println("计算机启动");
+    }
+    public void work(){
+       System.out.println("计算机工作");
+    }
+    public void stop(){
+       System.out.println("计算机关机");
+    }
+}
+
+public class MachineProxy implements IMachine {
+    
+    private IMachine machine;
+
+    public MachineProxy(IMachine machine){
+        this.machine = machine;
+    }
+
+    @Override
+    public void start() {
+        System.out.println("****************** 记录日志"); // 相同的工作
+        machine.start();
+    }
+
+    @Override
+    public void work() {
+        System.out.println("****************** 记录日志"); // 相同的工作
+        machine.work();
+    }    
+
+    @Override
+    public void stop() {
+        System.out.println("****************** 记录日志"); // 相同的工作
+        machine.stop();
+    }
+}
+
+public class Test {
+    public static void main(String[] args) {
+        MachineProxy proxy1 = new MachineProxy(new Printer());
+        proxy1.start();
+        proxy1.work();
+        proxy1.stop();
+
+        MachineProxy proxy2 = new MachineProxy(new Computer());
+        proxy2.start();
+        proxy2.work();
+        proxy2.stop();
+    }
+}
+```

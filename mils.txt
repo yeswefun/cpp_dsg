@@ -1,0 +1,34 @@
+
+
+临时
+$ chcp 65001
+    65001 -> utf8
+
+
+
+system("chcp 65001");
+cout << "你好世界" << endl;
+
+
+
+//return "" + int(100); // error
+
+template <class T>
+string convertToString(T value) {
+    stringstream ss;
+    ss << value;
+    return ss.str();
+}
+
+
+
+00 -> 05
+    创建型
+
+06 ->
+    结构型
+
+
+    行为型
+
+
