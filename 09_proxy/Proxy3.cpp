@@ -27,9 +27,9 @@ public:
     void request() {
         if ("root" == m_name && "1234" == m_code) {
             cout << "success" << endl;
-            cout << "************************ before request" << endl;
+            cout << "************************ request-0" << endl;
             m_server->request();
-            cout << "************************ after request" << endl;
+            cout << "************************ request-1" << endl;
         } else {
             cout << "failure" << endl;
         }
@@ -42,9 +42,10 @@ private:
 
 
 int main() {
+    AbstractServer *proxy1 = new ProxyServer("root", "1234");
+    proxy1->request();
 
-    AbstractServer *proxy = new ProxyServer("root", "1234");
-    proxy->request();
-
+    AbstractServer *proxy2 = new ProxyServer("rxxt", "8888");
+    proxy2->request();
     return 0;
 }

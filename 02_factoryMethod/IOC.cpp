@@ -1,4 +1,3 @@
-
 #include <iostream>
 #include <string>
 #include <map>
@@ -7,7 +6,7 @@
 
 using namespace std;
 
-
+// IocContainer<ICar> carIOC;
 template<class T>
 class IocContainer {
 public:
@@ -15,36 +14,38 @@ public:
     ~IocContainer() {}
     
     // 唯一标识 -> 便于查找
+    // carIOC.registerType<Bus>("bus");
     template<class Drived>
     void registerType(string key) {
-        std::function<T* ()> creator = [] {return new Drived();};
+        function<T* ()> creator = [] {return new Drived();};
         registerType(key, creator);
     }
 
-    // 根据唯一的标识去查找对应的构造函数
+    // 根据 唯一标识 查找 对应的构造函数
     T* Resolve(string key) {
         if (creatorMap.find(key) == creatorMap.end()) {
             return nullptr;
         }
-        std::function<T* ()> creator = creatorMap[key];
+        function<T* ()> creator = creatorMap[key];
         return creator();
     }
 
-    std::shared_ptr<T> resolveShared(string key) {
+    // shared_ptr<ICar> bus = carIOC.resolveShared("bus");
+    shared_ptr<T> resolveShared(string key) {
         T* ptr = Resolve(key);
-        return std::shared_ptr<T>(ptr);
+        return shared_ptr<T>(ptr);
     }
 
 private:
-    void registerType(string key, std::function<T* ()> creator) {
+    void registerType(string key, function<T* ()> creator) {
         if (creatorMap.find(key) != creatorMap.end()) {
-            throw std::invalid_argument("key已经存在: " + key);
+            throw invalid_argument("key已经存在: " + key);
         }
         creatorMap.emplace(key, creator);
     }
 
 private:
-    map<string, std::function<T* ()>> creatorMap;
+    map<string, function<T* ()>> creatorMap;
 };
 
 
@@ -56,28 +57,36 @@ struct ICar {
 struct Bus : ICar {
     Bus() {}
     void test() const {
-        std::cout << "Bus#test" << endl;
+        cout << "Bus#test" << endl;
     }
 };
 
 struct Jeep : ICar {
     Jeep() {}
     void test() const {
-        std::cout << "Jeep#test" << endl;
+        cout << Jeep::ID << "#test" << endl;
     }
+    static const string ID;
 };
 
+const string Jeep::ID = "Jeep";
 
+
+/*
+IOC: Inversion of Control
+
+DI: Dependency Injection
+*/
 int main() {
 
     IocContainer<ICar> carIOC;
     carIOC.registerType<Bus>("bus");
-    carIOC.registerType<Jeep>("jeep");
+    carIOC.registerType<Jeep>(Jeep::ID);
 
-    std::shared_ptr<ICar> bus = carIOC.resolveShared("bus");
+    shared_ptr<ICar> bus = carIOC.resolveShared("bus");
     bus->test();
 
-    std::shared_ptr<ICar> jeep = carIOC.resolveShared("jeep");
+    shared_ptr<ICar> jeep = carIOC.resolveShared(Jeep::ID);
     jeep->test();
 
     return 0;

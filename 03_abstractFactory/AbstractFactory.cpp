@@ -2,13 +2,12 @@
 
 using namespace std;
 
-
+// 帧操作
 class FrameApi {
 public:
     virtual void draw() = 0;
 protected:
-    FrameApi() {
-    }
+    FrameApi() {}
 };
 
 
@@ -17,7 +16,7 @@ public:
     PCFrame(int pins) : m_pins(pins) {
     }
     void draw() {
-        cout << "PC#draw" << endl;
+        cout << "PC#draw: " << m_pins << endl;
     }
 private:
     int m_pins;
@@ -29,13 +28,14 @@ public:
     MobileFrame(int pins) : m_pins(pins) {
     }
     void draw() {
-        cout << "Mobile#draw" << endl;
+        cout << "Mobile#draw: " << m_pins << endl;
     }
 private:
     int m_pins;
 };
 
 
+// 布局操作
 class LayoutApi {
 public:
     virtual void installFrame() = 0;
@@ -68,7 +68,7 @@ private:
 };
 
 
-//创建产品的简单工厂
+// 简单工厂
 class FrameFactory {
 public:
     static FrameApi* createFrame(int type) {
@@ -81,6 +81,7 @@ public:
     }
 };
 
+// 简单工厂
 class LayoutFactory {
 public:
     static LayoutApi* createLayout(int type) {
@@ -96,6 +97,13 @@ public:
 
 class GUIEngineer {
 public:
+    /*
+        HighLayout 关联 PCFrame
+        LowLayout 关联 MobileFrame
+
+        frameType，帧类型
+        layoutType，布局类型
+    */
     void prepareDraw(int frameType, int layoutType) {
         // if (this->pFrame) {
         //     delete this->pFrame;
@@ -115,14 +123,13 @@ private:
 
 
 /*
-HighLayout -> PCFrame
-LowLayout -> MobileFrame
+resolution，分辨率
 */
 int main() {
     GUIEngineer *pEng = new GUIEngineer;
     pEng->prepareDraw(1, 1);
-    // pEng->prepareDraw(1, 2); // not match
-    // pEng->prepareDraw(2, 1); // not match
+    pEng->prepareDraw(1, 2); // not match
+    pEng->prepareDraw(2, 1); // not match
     pEng->prepareDraw(2, 2);
     return 0;
 }

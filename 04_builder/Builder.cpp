@@ -45,7 +45,9 @@ public:
         return m_quantity;
     }
 private:
+    //交易id
     string m_transId;
+    //交易数量
     double m_quantity;
 };
 
@@ -59,6 +61,7 @@ public:
         return m_exportUser;
     }
 private:
+    //操作用户
     string m_exportUser;
 };
 
@@ -68,13 +71,81 @@ public:
     void doExport(ExportHeaderModel& ehm, vector<ExportDataModel*>& edmCollection, ExportFooterModel& efm);
 };
 
+
+class ExportToXmlHelper {
+public:
+    void doExport(ExportHeaderModel& ehm, vector<ExportDataModel*>& edmCollection, ExportFooterModel& efm);
+};
+
+
+/*
+一个对账周期可能会有多笔交易记录
+
+************************************* text
+部门, 6月1日
+111 : 10000
+222 : 20000
+333 : 30000
+张三
+************************************* xml
+<?xml version='1.0' encoding='utf-8'>
+<receipt>
+    <header>
+        <depId>部门</depId>
+        <exportDate>6月1日</exportDate>
+    </header>
+    <body>
+        <data>
+            <transId>111</transId>
+            <quantity>10000</quantity>
+        </data>
+        <data>
+            <transId>222</transId>
+            <quantity>20000</quantity>
+        </data>
+        <data>
+            <transId>333</transId>
+            <quantity>30000</quantity>
+        </data>
+    </body>
+    <footer>
+        <user>张三</user>
+    </footer>
+</receipt>
+*/
+int main() {
+
+    ExportHeaderModel* pEhm = new  ExportHeaderModel("部门", "6月1日");
+
+    ExportDataModel* pEdm1 = new ExportDataModel("111", 10000.0);
+    ExportDataModel* pEdm2 = new ExportDataModel("222", 20000.0);
+    ExportDataModel* pEdm3 = new ExportDataModel("333", 30000.0);
+    vector<ExportDataModel*> myVec;
+    myVec.push_back(pEdm1);
+    myVec.push_back(pEdm2);
+    myVec.push_back(pEdm3);
+
+    ExportFooterModel* pEfm = new ExportFooterModel("张三");
+
+    cout << "************************************* text" << endl;
+    ExportToTextHelper* pEtth = new ExportToTextHelper();
+    pEtth->doExport(*pEhm, myVec, *pEfm);
+
+    cout << "************************************* xml" << endl;
+    ExportToXmlHelper* pEtxh = new ExportToXmlHelper();
+    pEtxh->doExport(*pEhm, myVec, *pEfm);
+
+    return 0;
+}
+
+
 void ExportToTextHelper::doExport(ExportHeaderModel& ehm, vector<ExportDataModel*>& edmCollection, ExportFooterModel& efm) {
     string tmp = "";
     //header
     tmp += ehm.getDepId() + ", " + ehm.getExportDate() + "\n";
     //data
     for (vector<ExportDataModel*>::iterator it = edmCollection.begin(); it != edmCollection.end(); it++) {
-        tmp += (*it)->getTransId() + ":" + convertToString((*it)->getQuantity()) + "\n";
+        tmp += (*it)->getTransId() + " : " + convertToString((*it)->getQuantity()) + "\n";
         //tmp += (*it)->getTransId() + ":" + (*it)->getQuantity() + "\n";
     }
     //footer
@@ -83,73 +154,39 @@ void ExportToTextHelper::doExport(ExportHeaderModel& ehm, vector<ExportDataModel
 }
 
 
-class ExportToXmlHelper {
-public:
-    void doExport(ExportHeaderModel& ehm, vector<ExportDataModel*>& edmCollection, ExportFooterModel& efm);
-};
-
 void ExportToXmlHelper::doExport(ExportHeaderModel& ehm, vector<ExportDataModel*>& edmCollection, ExportFooterModel& efm) {
-    string tmp = "<?xml version='1.0' encoding='utf-8'>\n";
+    string tmp = "";
 
     //header
-    tmp.append("<receipt>\n");
-    tmp.append("    <header>\n");
-    tmp.append("        <depId>");
+    tmp.append("<header>\n");
+    tmp.append("    <depId>");
     tmp.append(ehm.getDepId());
     tmp.append("</depId>\n");
-    tmp.append("        <exportDate>");
+    tmp.append("    <exportDate>");
     tmp.append(ehm.getExportDate());
     tmp.append("</exportDate>\n");
-    tmp.append("    </header>\n");
+    tmp.append("</header>\n");
 
     //data
-    tmp.append("    <body>\n");
+    tmp.append("<body>\n");
     for (vector<ExportDataModel*>::iterator it = edmCollection.begin(); it != edmCollection.end(); it++) {
-        tmp.append("        <data>\n");
-        tmp.append("            <transId>");
+        tmp.append("    <data>\n");
+        tmp.append("        <transId>");
         tmp.append((*it)->getTransId());
         tmp.append("</transId>\n");
-        tmp.append("            <quantity>");
+        tmp.append("        <quantity>");
         tmp.append(convertToString((*it)->getQuantity()));
         tmp.append("</quantity>\n");
-        tmp.append("        </data>\n");
+        tmp.append("    </data>\n");
     }
-    tmp.append("    </body>\n");
+    tmp.append("</body>\n");
 
     //footer
-    tmp.append("    <footer>\n");
-    tmp.append("        <user>");
+    tmp.append("<footer>\n");
+    tmp.append("    <user>");
     tmp.append(efm.getExportUser());
     tmp.append("</user>\n");
-    tmp.append("    </footer>\n");
-    tmp.append("</receipt>\n");
+    tmp.append("</footer>\n");
 
     cout << tmp;
 };
-
-
-/*
-一个对账周期可能会有多笔交易记录
-*/
-int main() {
-
-    ExportHeaderModel* pEhm = new  ExportHeaderModel("NewB", "6月1日");
-
-    ExportDataModel* pEdm = new ExportDataModel("1", 10000.0);
-    ExportDataModel* pEdm2 = new ExportDataModel("2", 20000.0);
-    ExportDataModel* pEdm3 = new ExportDataModel("3", 30000.0);
-    vector<ExportDataModel*> myVec;
-    myVec.push_back(pEdm);
-    myVec.push_back(pEdm2);
-    myVec.push_back(pEdm3);
-
-    ExportFooterModel* pEfm = new ExportFooterModel("Jerry");
-
-    ExportToTextHelper* pEtth = new ExportToTextHelper();
-    pEtth->doExport(*pEhm, myVec, *pEfm);
-
-    ExportToXmlHelper* pEtxh = new ExportToXmlHelper();
-    pEtxh->doExport(*pEhm, myVec, *pEfm);
-
-    return 0;
-}

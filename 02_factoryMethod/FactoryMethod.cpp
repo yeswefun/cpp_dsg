@@ -14,7 +14,7 @@ protected:
 class ExportTextFile : public ExportFileApi {
 public:
     bool exportData(string data) {
-        cout << "text: " << data << endl;
+        cout << "****************** text: " << data << endl;
         return true;
     }
 };
@@ -22,13 +22,16 @@ public:
 class ExportDB : public ExportFileApi {
 public:
     bool exportData(string data) {
-        cout << "db: " << data << endl;
+        cout << "****************** db: " << data << endl;
         return true;
     }
 };
 //------------------------------------ 客户端不可见: end
 
 
+/*
+    父类功能延迟到子类再实现
+*/
 class ExportOperation : public ExportFileApi { // 接口
 public:
     bool exportData(string data) {

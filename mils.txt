@@ -1,5 +1,10 @@
 
 
+注: 
+    programing 和 programming 都可以
+    regreting  和 regretting
+
+
 临时
 $ chcp 65001
     65001 -> utf8
@@ -32,3 +37,18 @@ string convertToString(T value) {
     行为型
 
 
+
+$ find ./ -type f -name "*.exe" -exec rm -rf {} \;
+
+
+// 预处理
+$ g++ -E test.cpp -o test.i
+
+// 编译
+$ g++ -S test.i -o test.s
+
+// 汇编
+$ g++ -c test.s -o test.o
+
+// 链接
+$ g++ test.o -o test.out

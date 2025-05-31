@@ -17,7 +17,7 @@ public:
     PCFrame(int pins) : m_pins(pins) {
     }
     void draw() {
-        cout << "PC#draw" << endl;
+        cout << "PC#draw: " << m_pins << endl;
     }
 private:
     int m_pins;
@@ -29,7 +29,7 @@ public:
     MobileFrame(int pins) : m_pins(pins) {
     }
     void draw() {
-        cout << "Mobile#draw" << endl;
+        cout << "Mobile#draw: " << m_pins << endl;
     }
 private:
     int m_pins;
@@ -69,7 +69,7 @@ private:
 
 
 
-//抽象工厂用来定义产品簇
+// 抽象工厂用来定义产品簇
 class AbstractFactory {
 public:
     virtual FrameApi* createFrameApi() = 0;
@@ -113,9 +113,6 @@ private:
 };
 
 /*
-HighLayout -> PCFrame
-LowLayout -> MobileFrame
-
 抽象工厂 相当于 套餐
     有固定搭配
 */

@@ -5,18 +5,17 @@ using namespace std;
 
 class Singleton;
 
-static std::map<string, Singleton*> myMap = std::map<string, Singleton*>();
+static map<string, Singleton*> myMap = map<string, Singleton*>();
 
 //懶汉 - 延迟加载
 class Singleton {
 private:
     Singleton() {
-        instance = nullptr;
         cout << "构造一个 Singleton 对象: " << this << endl;
     }
 public:
     static Singleton* getInstance() {
-        //std::map<std::string, int>::iterator it = myMap.find(DEFAULT_KEY);
+        //map<string, int>::iterator it = myMap.find(DEFAULT_KEY);
         if (myMap.find(DEFAULT_KEY) != myMap.end()) {
             return myMap.find(DEFAULT_KEY)->second;
         }
@@ -32,7 +31,7 @@ private:
 };
 
 Singleton* Singleton::instance = nullptr;
-string Singleton::DEFAULT_KEY = "One";
+string Singleton::DEFAULT_KEY = "KEY";
 
 
 int main() {

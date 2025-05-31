@@ -8,7 +8,6 @@ enum PieceColor {BLACK, WHITE};
 struct PiecePos {
     int m_x;
     int m_y;
-
     PiecePos(int x, int y) : m_x(x), m_y(y) {}
 };
 
@@ -44,7 +43,7 @@ public:
 
 class PieceBoard {
 public:
-    PieceBoard(string black, string white) : m_black(black), m_white(white) {}
+    PieceBoard(string black, string white) : m_blackUserName(black), m_whiteUserName(white) {}
     ~PieceBoard() {
         clear();
     }
@@ -53,7 +52,7 @@ public:
             delete (*it);
         }
     }
-    void setPiece(PieceColor color, PiecePos pos) {
+    void addPiece(PieceColor color, PiecePos pos) {
         Piece *p;
         if (color == BLACK) {
             p = new BlackPiece(color, pos);
@@ -65,8 +64,8 @@ public:
 private:
     //黑白棋都一样，就颜色不一样
     vector<Piece*> m_pieces;
-    string m_black;
-    string m_white;
+    string m_blackUserName;
+    string m_whiteUserName;
 };
 
 

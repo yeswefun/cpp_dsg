@@ -5,48 +5,48 @@ using namespace std;
 class Camera {
 public:
     void turnOn() {
-        cout << "camera start" << endl;
+        cout << "turn on: camera" << endl;
     }
 
     void turnOff() {
-        cout << "camera exit" << endl;
+        cout << "turn off: camera" << endl;
     }
 };
 
 class Light {
 public:
     void turnOn() {
-        cout << "light start" << endl;
+        cout << "turn on: light" << endl;
     }
     void turnOff() {
-        cout << "light exit" << endl;
+        cout << "turn off: light" << endl;
     }
 };
 
 class Sensor {
 public:
     void active() {
-        cout << "sensor start" << endl;
+        cout << "turn on: sensor" << endl;
     }
 
     void deactive() {
-        cout << "sensor exit" << endl;
+        cout << "turn off: sensor" << endl;
     }
 };
 
 class Alarm {
 public:
     void active() {
-        cout << "alarm start" << endl;
+        cout << "turn on: alarm" << endl;
     }
     void deactive() {
-        cout << "alarm exit" << endl;
+        cout << "turn off: alarm" << endl;
     }
 };
 
 
 /*
-LOD:
+LOD: The Law of Demeter or principle of least knowledge
     迪米特法则 / 最少知识原则
 */
 int main() {
@@ -56,13 +56,13 @@ int main() {
     Sensor* pSensor = new Sensor;
     Alarm* pAlarm = new Alarm;
 
-    cout << "************ system start" << endl;
+    cout << "******************** system start" << endl;
     pCamera->turnOn();
     pLight->turnOn();
     pSensor->active();
     pAlarm->active();
 
-    cout << "************ system exit" << endl;
+    cout << "******************** system exit" << endl;
     pCamera->turnOff();
     pLight->turnOff();
     pSensor->deactive();

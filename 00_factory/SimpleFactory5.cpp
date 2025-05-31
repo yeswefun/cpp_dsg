@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "DynObj2.h"
+#include "DynObj.h"
 
 using namespace std;
 
@@ -31,6 +31,26 @@ public:
 REG_CLASS(ImplOne);
 REG_CLASS(ImplTwo);
 
+
+/*
+gcc/g++
+    -E                       Preprocess only; do not compile, assemble or link.
+    -S                       Compile only; do not assemble or link.
+    -c                       Compile and assemble, but do not link.
+    -o <file>                Place the output into <file>.
+
+    // 预处理
+    $ g++ -E test.cpp -o test.i
+
+    // 编译
+    $ g++ -S test.i -o test.s
+
+    // 汇编
+    $ g++ -c test.s -o test.o
+
+    // 链接
+    $ g++ test.o -o test.out
+*/
 int main() {
     ImplOne *pOne = static_cast<ImplOne*>(CObjFactory::createObject("ImplOne"));
     pOne->test("测试");

@@ -29,7 +29,7 @@ public:
     }
 
     void doConvert() {
-        cout << "three phase -> two phase" << endl;
+        cout << "CLS: three phase -> two phase" << endl;
     }
 };
 
@@ -51,7 +51,7 @@ public:
     }
 
     void doConvert() {
-        cout << "three phase -> two phase" << endl;
+        cout << "OBJ: three phase -> two phase" << endl;
     }
 private:
     ThreePhaseOutlet *m_out;
@@ -70,11 +70,11 @@ private:
 */
 int main() {
 
-    cout << "****************** class" << endl;
-    TwoPhaseOutlet *pOutlet = new OutletConvertor();
-    pOutlet->doPlug();
+    cout << "****************** CLS" << endl;
+    TwoPhaseOutlet *pOutlet1 = new OutletConvertor();
+    pOutlet1->doPlug();
 
-    cout << "****************** object" << endl;
+    cout << "****************** OBJ" << endl;
     TwoPhaseOutlet *pOutlet2 = new OutletObjConvertor(new ThreePhaseOutlet());
     pOutlet2->doPlug();
 

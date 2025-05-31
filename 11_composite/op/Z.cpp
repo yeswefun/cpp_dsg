@@ -10,8 +10,8 @@ Component
 
 $ g++ -I . .\Z.cpp .\Express.cpp .\ExpressNode.cpp .\UnaryNode.cpp .\BinaryNode.cpp; ./a.exe
 
-递归型
-部分也是整个
+组合模式
+递归型: 部分也是整体
 */
 int main() {
 
@@ -27,3 +27,10 @@ int main() {
 
     return 0;
 }
+
+/*
+            +
+        5       x
+            -       4
+        1       2
+*/

@@ -38,9 +38,9 @@ bool initLogMap() {
 }
 
 /*
-智能指针
-aop
 缓存思想
+AOP: Aspect-Oriented Programming
+智能指针
 
 切分日志
     日志
@@ -52,6 +52,7 @@ aop
 */
 int main() {
 
+    // 一次性加载，内存可能不够
     initLogMap();
 
     for (int i = 0; i < 3; i++) {
@@ -59,11 +60,11 @@ int main() {
         map<int, vector<string>>::iterator it = sLogMap.begin();
         while (it != sLogMap.end()) {
             pair<int, vector<string>> p = *it++;
-            cout << "no: " << p.first << endl;
+            cout << "num: " << p.first << endl;
             vector<string>::iterator begin = p.second.begin();
             vector<string>::iterator end = p.second.end();
             while (begin != end) {
-                cout << "info: " << *begin++ << endl;
+                cout << "msg: " << *begin++ << endl;
             }
         }
     }

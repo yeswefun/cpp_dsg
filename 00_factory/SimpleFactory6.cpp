@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "DynObj2.h"
+#include "DynObj.h"
 
 using namespace std;
 
@@ -41,7 +41,7 @@ public:
 };
 
 /*
-从配置文件中读取 类名
+//TODO: 从配置文件中读取 类名
 */
 int main() {
     Api *pApi = AutoFactory::createApi();

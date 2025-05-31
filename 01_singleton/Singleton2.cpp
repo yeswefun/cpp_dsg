@@ -10,6 +10,7 @@ private:
         cout << "构造一个 Singleton 对象: " << this << endl;
     }
 public:
+    // 懒汉式 - 问题
     static Singleton* getInstance() {
         if (instance == nullptr) {
 			usleep(100000);
@@ -26,7 +27,7 @@ Singleton* Singleton::instance = nullptr;
 void* thread_task(void *args) {
 	int arg = *(int*)args;
     for (int x = 0; x < 6; x++) {
-        cout << arg  << " *************** " << Singleton::getInstance() << endl;
+        cout << Singleton::getInstance() << endl;
     }
 	pthread_exit(args);
 	return nullptr;
@@ -43,12 +44,14 @@ int main() {
 	
 	for (int i = 0; i < NUM; i++) {
 		pthread_create(&tids[i], NULL, thread_task, new int(i));
+        //TODO: (void *)&i 这样传递是否会有问题
+        // pthread_create(&tids[i], NULL, thread_task, (void *)&i); // 不需要 delete (int*)status;
 	}
 
 	void *status = nullptr;
 	for (int i = 0; i < NUM; i++) {
 		pthread_join(tids[i], &status);
-		cout << "status: " << *(int*)status << endl;
+		//cout << "status: " << *(int*)status << endl;
 		delete (int*)status;
 	}
 

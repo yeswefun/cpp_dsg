@@ -50,42 +50,35 @@ public:
             cout << "********************* get from disk" << endl;
             (new RealBugModel())->getBugs();
             m_reload = false;
-            showBugs();
         } else {
             cout << "********************* get from cache" << endl;
-            showBugs();
         }
+        showBugs();
     }
 private:
     void showBugs() {
-        map<int, vector<string>>::iterator it = sCacheMap.begin();
-        while (it != sCacheMap.end()) {
-            pair<int, vector<string>> p = *it++;
-            cout << "no: " << p.first << endl;
-            vector<string>::iterator begin = p.second.begin();
-            vector<string>::iterator end = p.second.end();
-            while (begin != end) {
-                cout << "info: " << *begin++ << endl;
+        for (int i = 0; i < sCacheMap.size(); i++) {
+            cout << "num: " << i << ", msg: ";
+            for (vector<string>::iterator it = sCacheMap[i].begin(); it != sCacheMap[i].end(); it++) {
+                cout << (*it) << " ";
             }
+            cout << endl;
         }
+        // map<int, vector<string>>::iterator it = sCacheMap.begin();
+        // while (it != sCacheMap.end()) {
+        //     pair<int, vector<string>> p = *it++;
+        //     cout << "num: " << p.first << endl;
+        //     vector<string>::iterator begin = p.second.begin();
+        //     vector<string>::iterator end = p.second.end();
+        //     while (begin != end) {
+        //         cout << "msg: " << *begin++ << endl;
+        //     }
+        // }
     }
 private:
-    bool m_reload;
+    bool m_reload; // 重新加载
 };
 
-/*
-智能指针
-aop
-缓存思想
-
-切分日志
-    日志
-        时间，故障标题，故障描述
-
-    map<int, vector<string>>
-        int: 故障序号
-        vector<string>: 日志列表
-*/
 int main() {
 
     //ProxyBugModel *p = new ProxyBugModel();

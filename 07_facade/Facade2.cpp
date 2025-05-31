@@ -5,42 +5,42 @@ using namespace std;
 class Camera {
 public:
     void turnOn() {
-        cout << "camera start" << endl;
+        cout << "turn on: camera" << endl;
     }
 
     void turnOff() {
-        cout << "camera exit" << endl;
+        cout << "turn off: camera" << endl;
     }
 };
 
 class Light {
 public:
     void turnOn() {
-        cout << "light start" << endl;
+        cout << "turn on: light" << endl;
     }
     void turnOff() {
-        cout << "light exit" << endl;
+        cout << "turn off: light" << endl;
     }
 };
 
 class Sensor {
 public:
     void active() {
-        cout << "sensor start" << endl;
+        cout << "turn on: sensor" << endl;
     }
 
     void deactive() {
-        cout << "sensor exit" << endl;
+        cout << "turn off: sensor" << endl;
     }
 };
 
 class Alarm {
 public:
     void active() {
-        cout << "alarm start" << endl;
+        cout << "turn on: alarm" << endl;
     }
     void deactive() {
-        cout << "alarm exit" << endl;
+        cout << "turn off: alarm" << endl;
     }
 };
 
@@ -50,11 +50,12 @@ public:
     // Light* pLight = new Light;
     // Sensor* pSensor = new Sensor;
     // Alarm* pAlarm = new Alarm;
+    //
     // SecurityFacade(Camera *pCamera, Light *pLight, Sensor *pSensor, Alarm *pAlarm) 
     // : m_camera(pCamera), m_light(pLight), m_sensor(pSensor), m_alarm(pAlarm) {
     // }
     SecurityFacade() {
-        cout << "------------> initialize" << endl;
+        cout << "-----------> initialize" << endl;
         m_camera = new Camera;
         m_light = new Light;
         m_sensor = new Sensor;
@@ -62,7 +63,7 @@ public:
     }
 
     ~SecurityFacade() {
-        cout << "------------> cleanup" << endl;
+        cout << "-----------> cleanup" << endl;
         delete m_camera;
         delete m_light;
         delete m_sensor;
@@ -93,13 +94,17 @@ private:
 
 
 /*
-LOD:
+LOD: The Law of Demeter or principle of least knowledge
     迪米特法则 / 最少知识原则
+
+门面(外观)模式
 */
 int main() {
 
     SecurityFacade facade;
+    
     facade.active();
+    
     facade.deactive();
 
     return 0;

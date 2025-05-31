@@ -8,6 +8,7 @@ private:
         cout << "构造一个 Singleton 对象" << endl;
     }
 public:
+    // 懒汉式
     static Singleton* getInstance() {
         if (instance == nullptr) {
             instance = new Singleton;
@@ -34,7 +35,7 @@ int main() {
     cout << p2 << endl;
 
     cout << "*********************" << endl;
-    for (int x = 0; x < 8; x++) {
+    for (int x = 0; x < 32; x++) {
         cout << Singleton::getInstance() << endl;
     }
 

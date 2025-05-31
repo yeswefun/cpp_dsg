@@ -18,6 +18,7 @@ public:
 
     virtual string getOrderContent() = 0;
 
+    // DRY
     virtual OrderApi* cloneOrder() = 0;
 
 protected:
@@ -117,6 +118,31 @@ public:
     void saveOrder(OrderApi *order);
 };
 
+/*
+DRY原则: Don't Repeat Yourself
+*/
+int main() {
+    
+    HomeOrder *pHome = new HomeOrder;
+    pHome->setProductId("1001");
+    pHome->setCustomerName("OrderName");
+    pHome->setOrderProductNum(512);
+    
+    cout << "*** 1" << endl;
+    OrderBusiness *p = new OrderBusiness;
+    p->saveOrder(pHome);
+    
+    cout << "*** 2" << endl;
+    pHome->setOrderProductNum(128);
+    p->saveOrder(pHome);
+
+    cout << "*** 3" << endl;
+    pHome->setOrderProductNum(1024);
+    p->saveOrder(pHome);
+
+    return 0;
+}
+
 void OrderBusiness::saveOrder(OrderApi *order) {
     //超过200，则进行拆分
     while (order->getOrderProductNum() > 200) {       
@@ -127,21 +153,4 @@ void OrderBusiness::saveOrder(OrderApi *order) {
     }
 
     cout << " remain order: " << order->getOrderContent() << endl;
-}
-
-
-/*
-DRY原则: Don't Repeat Yourself
-*/
-int main() {
-    
-    HomeOrder *pHome = new HomeOrder;
-    pHome->setOrderProductNum(512);
-    pHome->setCustomerName("cpp");
-    pHome->setProductId("666");
-
-    OrderBusiness *p = new OrderBusiness;
-    p->saveOrder(pHome);
-
-    return 0;
 }

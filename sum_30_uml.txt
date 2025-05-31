@@ -1,18 +1,5 @@
 
-
-
-
-
-
-UML
-    Unified Modeling Language
-
-    类图
-    顺序图
-    状态图
-
-
-
+UML: Unified Modeling Language
 
 
 UML工具
@@ -21,3 +8,9 @@ UML工具
     powerDesigner
 
 
+UML
+    Unified Modeling Language
+
+    类图
+    顺序图
+    状态图

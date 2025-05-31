@@ -58,6 +58,12 @@ public:
     list<IFile*>* getChildList() {
         return m_list;
     }
+    ~Dir() { 
+        if (m_list) {
+            delete m_list;
+            m_list = nullptr;
+        }
+    }
 private:
     string m_name;
     list<IFile*> *m_list;
@@ -65,6 +71,7 @@ private:
 
 
 void showTree(IFile *root, int level) {
+    
     if (root == nullptr) {
         return;
     }
@@ -75,17 +82,18 @@ void showTree(IFile *root, int level) {
 
     root->display();
     list<IFile*> *lst = root->getChildList();
-    if (lst != nullptr) {
+    if (lst != nullptr) {// dir
         for (list<IFile*>::iterator it = lst->begin(); it != lst->end(); it++) {
-            if ((*it)->getChildList() == nullptr) {
-                //file
-                for (int i = 0; i < level+1; i++) {
-                    cout << "\t";
-                }
-                (*it)->display();
-            } else {
-                showTree(*it, level+1);
-            }
+            //*it == IFile*
+            showTree(*it, level+1);
+            // if ((*it)->getChildList() == nullptr) {//file
+            //     for (int i = 0; i < level+1; i++) {
+            //         cout << "\t";
+            //     }
+            //     (*it)->display();
+            // } else {// dir
+            //     showTree(*it, level+1);
+            // }
         }
     }
 }
@@ -113,6 +121,16 @@ int main() {
     dir2->add(file4);
 
     showTree(root, 0);
+
+    delete file1;
+    delete file2;
+    delete file3;
+    delete file4;
+
+    delete dir1;
+    delete dir2;
+
+    delete root;
 
     return 0;
 }

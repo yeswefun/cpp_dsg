@@ -8,13 +8,13 @@ class IHello {
 public:
     IHello() {}
     virtual ~IHello(){}
-    virtual void output(const string& s) = 0;
+    virtual void output(const string& msg) = 0;
 };
 
 class Hello : public IHello {
 public:
-    void output(const string &s) override {
-        cout << s << endl;
+    void output(const string &msg) override {
+        cout << msg << endl;
     }
 };
 
@@ -25,9 +25,9 @@ public:
         delete m_p;
         m_p = nullptr;
     }
-    void output(const string& s) final {
+    void output(const string& msg) final {
         cout << "****************** log before" << endl;
-        m_p->output(s);
+        m_p->output(msg);
         cout << "****************** log after" << endl;
     }
 private:
@@ -39,11 +39,20 @@ AOP: 面向切面编程
 */
 int main() {
 
-    IHello *p = new HelloProxy(new Hello());
-    p->output("content");
+    IHello *p1 = new HelloProxy(new Hello());
+    p1->output("content1");
+    delete p1;
 
-    shared_ptr<IHello> px = make_shared<HelloProxy>(new Hello());
-    px->output("content2");
+    IHello *p2 = new HelloProxy(new Hello());
+    p2->output("content2");
+    delete p2;
+
+    IHello *p3 = new HelloProxy(new Hello());
+    p3->output("content3");
+    delete p3;
+
+    shared_ptr<IHello> ps = make_shared<HelloProxy>(new Hello());
+    ps->output("contents");
 
     return 0;
 }

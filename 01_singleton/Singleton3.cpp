@@ -18,12 +18,13 @@ private:
     static Singleton *instance;
 };
 
+// 饿汉式
 Singleton* Singleton::instance = new Singleton;
 
 void* thread_task(void *args) {
 	int arg = *(int*)args;
     for (int x = 0; x < 6; x++) {
-        cout << arg  << " *************** " << Singleton::getInstance() << endl;
+        cout << Singleton::getInstance() << endl;
     }
 	pthread_exit(args);
 	return nullptr;
@@ -33,7 +34,6 @@ const int NUM = 10;
 
 /*
 在 C++ 中，构造函数是非线程安全的
-# g++ Singleton2.cpp -lpthread && ./a.out
 */
 int main() {
 	pthread_t tids[NUM];
@@ -45,7 +45,7 @@ int main() {
 	void *status = nullptr;
 	for (int i = 0; i < NUM; i++) {
 		pthread_join(tids[i], &status);
-		cout << "status: " << *(int*)status << endl;
+		//cout << "status: " << *(int*)status << endl;
 		delete (int*)status;
 	}
 

@@ -35,6 +35,7 @@ public:
         CObjFactory::registerClass("ImplOne", ImplOneHelper::createObjFunc);
     }
 
+    // 返回值: void*
     static void* createObjFunc() {
         return new ImplOne;
     }
@@ -42,7 +43,7 @@ public:
 
 
 int main() {
-    ImplTwo *pApi = static_cast<ImplTwo*>(ImplOneHelper::createObjFunc());
+    ImplOne *pApi = static_cast<ImplOne*>(ImplOneHelper::createObjFunc());
     pApi->test("测试");
     return 0;
 }

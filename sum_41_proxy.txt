@@ -1,15 +1,5 @@
 
-
-
 代理设计模式
-
-
-
-
-
-
-作者：夏昊
-链接：https://www.zhihu.com/question/20794107/answer/811250346
 
 
 要理解动态代理首先要理解代理模式什么是代理模式？
@@ -213,3 +203,6 @@ public class Test {
     }
 }
 ```
+
+
+参考链接：https://www.zhihu.com/question/20794107/answer/811250346

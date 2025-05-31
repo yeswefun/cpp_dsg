@@ -5,7 +5,7 @@ using namespace std;
 
 const static int NUM_MAX = 5;
 class Singleton;
-static std::map<int, Singleton*> myMap = std::map<int, Singleton*>();
+static map<int, Singleton*> myMap = map<int, Singleton*>();
 
 
 class Singleton {
@@ -21,30 +21,49 @@ public:
             myMap[instance_count] = instance;
         }
         instance_count++;
+        // 1, 2, 3, 4, 5, [6]->1
         if (instance_count > NUM_MAX) {
             instance_count = 1;
         }
         return instance;
     }
+
+    static void printInstanceCount() {
+        cout << "instance_count: " << instance_count << endl;
+    }
 private:
     static Singleton *instance;
-    //存放实例个数
-    static int instance_count;
-    //非静态成员 以 m_ 作为前缀
-    //静态成员 以 s_ 作为前缀
-    //全局变量 以 g_ 作为前缀
+    static int instance_count; // 存放实例个数
 };
 
 Singleton* Singleton::instance = nullptr;
 int Singleton::instance_count = 1;
 
+/*
+    非静态成员 以 m_ 作为前缀
+    静态成员 以 s_ 作为前缀
+    全局变量 以 g_ 作为前缀
+
+    多例缓存，多个单例的缓存
+*/
 int main() {
-    for (int j = 0; j < 5; j++) {
-        cout << "********* loop: " << j << endl;
-        for (int x = 0; x < 5; x++) {
-            Singleton *p = Singleton::getInstance();
-            cout << p << endl;
-        }
+
+    cout << "****************** debug-1" << endl;
+    for (int i = 0; i < 7; i++) {
+        cout << "*** loop: " << i << endl;
+        Singleton::printInstanceCount();
+        Singleton::getInstance();
+        Singleton::printInstanceCount();
     }
+
+    cout << "****************** debug-2" << endl;
+    for (int i = 0; i < 6; i++) { // row
+        for (int j = 0; j < NUM_MAX; j++) { // column
+            Singleton* p = Singleton::getInstance();
+            cout << p << " ";
+        }
+        cout << endl;
+    }
+    
     return 0;
 }

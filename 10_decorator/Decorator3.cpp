@@ -3,7 +3,6 @@
 
 using namespace std;
 
-
 class CView {
 public:
     virtual void draw() {}
@@ -25,7 +24,7 @@ public:
     CScrollBar(CView *view) : CDecorate(view) {}
 protected:
     void drawScrollBars() {
-        cout << "draw scrollBars" << endl;
+        cout << "draw ScrollBar" << endl;
     }
 public:
     void draw() {
@@ -48,7 +47,7 @@ public:
     }
 };
 
-//context -> 主要的被装饰对象
+//Context -> 主要的被装饰对象
 class CTextView : public CView {
 public:
     CTextView(const char *s) {
@@ -120,12 +119,13 @@ int main() {
     wins.draw();
 
     cout << "*********************" << endl;
-    wins.removeControl(&tv);
+    //wins.removeControl(&tv);
     CScrollBar *sv = new CScrollBar(&tv);
     wins.addControl(sv);
     wins.draw();
 
     cout << "*********************" << endl;
+    wins.removeControl(&tv);
     wins.removeControl(sv);
     CBorder *border = new CBorder(&tv);
     wins.addControl(border);

@@ -3,6 +3,8 @@
 #include <unistd.h>
 using namespace std;
 
+pthread_mutex_t mutex;
+
 class Singleton {
 private:
     Singleton() {
@@ -17,13 +19,22 @@ public:
 			instance = new Singleton;
 		}
 */
+/*
         if (instance == nullptr) {
 			usleep(100000);
-			//临界区-开始
 			if (instance == nullptr) {
             	instance = new Singleton;
 			}
-			//临界区-结束
+        }
+*/
+        if (instance == nullptr) {
+			usleep(100000);
+			pthread_mutex_lock(&mutex);
+			if (instance == nullptr) {
+				usleep(100000);
+            	instance = new Singleton;
+			}
+			pthread_mutex_unlock(&mutex);
         }
         return instance;
     }
@@ -50,6 +61,7 @@ const int NUM = 10;
 DCL: Double Check Locking 
 */
 int main() {
+	pthread_mutex_init(&mutex, NULL);
 
 	pthread_t tids[NUM];
 	
@@ -64,5 +76,6 @@ int main() {
 		delete (int*)status;
 	}
 
+	pthread_mutex_destroy(&mutex);
     return 0;
 }

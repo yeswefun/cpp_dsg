@@ -14,13 +14,17 @@ int main() {
     
     stack<int> myStack;
     stack<int> myStack2(myDeque); // 转换
+
+    cout << "------------------------" << endl;
     cout << "stack size: " << myStack.size() << endl;
     cout << "stack2 size: " << myStack2.size() << endl;
-
+    
+    cout << "------------------------" << endl;
     myStack2.pop();
     cout << "stack2 size: " << myStack2.size() << endl;
     cout << "stack2 top: " << myStack2.top() << endl;
 
+    cout << "------------------------" << endl;
     cout << "deque size: " << myDeque.size() << endl;
 
     return 0;

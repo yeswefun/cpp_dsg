@@ -31,11 +31,15 @@ public:
 class Factory {
 public:
     static Api* createApi(int type) {
-        Api *pApi = nullptr;
+        Api *pApi;
         if (type == 1) {
             pApi = new ImplOne();
         } else if (type == 2) {
             pApi = new ImplTwo();
+        } else {
+             pApi = nullptr;
+             // pApi = createApi();
+             //TODO: 通过枚举限制
         }
         return pApi;
     }

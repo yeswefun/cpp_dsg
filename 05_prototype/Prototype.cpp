@@ -22,6 +22,7 @@ protected:
     OrderApi() {}
 };
 
+// 国内订单
 class HomeOrder : public OrderApi {
 public:
     int getOrderProductNum() {
@@ -33,7 +34,7 @@ public:
     }
 
     string getOrderContent() {
-        return m_customerName + ":" + m_productId + ":" + covertToString(m_orderProductNum);
+        return m_productId + ":" + m_customerName + ":" + covertToString(m_orderProductNum);
     }
 
     void setCustomerName(string name) {
@@ -58,6 +59,7 @@ private:
 };
 
 
+// 国外订单
 class AboardOrder : public OrderApi {
 public:
     int getOrderProductNum() {
@@ -69,7 +71,7 @@ public:
     }
 
     string getOrderContent() {
-        return m_customerName + ":" + m_productId + ":" + covertToString(m_orderProductNum);
+        return m_productId + ":" + m_customerName + ":" + covertToString(m_orderProductNum);
     }
 
     void setCustomerName(string name) {
@@ -94,10 +96,37 @@ private:
 };
 
 
+// 订单业务处理
 class OrderBusiness {
 public:
     void saveOrder(OrderApi *order);
 };
+
+
+/*
+对象的快速复制
+*/
+int main() {
+    
+    HomeOrder *pHome = new HomeOrder;
+    pHome->setProductId("1001");
+    pHome->setCustomerName("OrderName");
+    pHome->setOrderProductNum(512);
+    
+    cout << "*** 1" << endl;
+    OrderBusiness *p = new OrderBusiness;
+    p->saveOrder(pHome);
+    
+    cout << "*** 2" << endl;
+    pHome->setOrderProductNum(128);
+    p->saveOrder(pHome);
+
+    cout << "*** 3" << endl;
+    pHome->setOrderProductNum(1024);
+    p->saveOrder(pHome);
+
+    return 0;
+}
 
 void OrderBusiness::saveOrder(OrderApi *order) {
     //超过200，则进行拆分
@@ -123,23 +152,12 @@ void OrderBusiness::saveOrder(OrderApi *order) {
             newOrder = p2;
         }
 
+        if (newOrder == nullptr) {
+            break;
+        }
         order->setOrderProductNum(order->getOrderProductNum() - 200);
         cout << "splited order: " << newOrder->getOrderContent() << endl;
     }
 
     cout << " remain order: " << order->getOrderContent() << endl;
-}
-
-
-int main() {
-    
-    HomeOrder *pHome = new HomeOrder;
-    pHome->setOrderProductNum(512);
-    pHome->setCustomerName("cpp");
-    pHome->setProductId("666");
-
-    OrderBusiness *p = new OrderBusiness;
-    p->saveOrder(pHome);
-
-    return 0;
 }

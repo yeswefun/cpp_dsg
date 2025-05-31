@@ -31,14 +31,18 @@ public:
 class Factory {
 public:
     static Api* createApi(int type) {
-        Api *pApi = nullptr;
+        Api *pApi;
         if (type == 1) {
             pApi = new ImplOne();
         } else if (type == 2) {
             pApi = new ImplTwo();
+        } else {
+             pApi = nullptr;
         }
         return pApi;
     }
+private:
+    Factory(){}
 };
 
 
