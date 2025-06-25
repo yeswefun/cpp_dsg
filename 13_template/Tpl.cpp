@@ -12,7 +12,7 @@ public:
     virtual void finishOrder() = 0;
     virtual void replyFinish() = 0;
 
-    //模板方法
+    //模板方法，固定流程
     void make() {
         startOrder();
         replyStart();
@@ -26,13 +26,13 @@ protected:
 class Foxcom : public MakeOrder {
 public:
     void startOrder() {
-        cout << "Foxcom start order" << endl;
+        cout << "Foxcom order start" << endl;
     }
     void replyStart() {
         cout << "Foxcom reply start" << endl;
     }
     void finishOrder() {
-        cout << "Foxcom finish order" << endl;
+        cout << "Foxcom order finish" << endl;
     }
     void replyFinish() {
         cout << "Foxcom reply finish" << endl;
@@ -42,13 +42,13 @@ public:
 class Samsung : public MakeOrder {
 public:
     void startOrder() {
-        cout << "Samsung start order" << endl;
+        cout << "Samsung order start" << endl;
     }
     void replyStart() {
         cout << "Samsung reply start" << endl;
     }
     void finishOrder() {
-        cout << "Samsung finish order" << endl;
+        cout << "Samsung order finish" << endl;
     }
     void replyFinish() {
         cout << "Samsung reply finish" << endl;
@@ -57,8 +57,11 @@ public:
 
 
 /*
+将"动作"封装成对象是理解行为型模式的重要基础
+
 模板方法
-    对子类的动作约束
+    对子类的动作顺序约束
+    动作延迟到子类中实现
 */
 int main() {
 

@@ -1,5 +1,8 @@
 
 
+Tyrant: 暴君
+
+
 注: 
     programing 和 programming 都可以
     regreting  和 regretting
@@ -38,7 +41,7 @@ string convertToString(T value) {
 
 
 
-$ find ./ -type f -name "*.exe" -exec rm -rf {} \;
+
 
 
 // 预处理

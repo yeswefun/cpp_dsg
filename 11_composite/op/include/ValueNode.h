@@ -14,10 +14,12 @@ public:
 private:
     int m_value;
 
+    // 1
     void print(ostream &out) const {
         out << m_value;
     }
 
+    // 1
     int eval() const {
         return m_value;
     }

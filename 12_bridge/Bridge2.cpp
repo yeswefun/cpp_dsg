@@ -9,17 +9,24 @@ public:
     virtual void run() = 0;
 };
 
-class CWindows : public IOS {
+class Windows : public IOS {
 public:
     void run() {
         cout << "-> Windows" << endl;
     }
 };
 
-class CLinux : public IOS {
+class Linux : public IOS {
 public:
     void run() {
         cout << "-> Linux" << endl;
+    }
+};
+
+class MacOS : public IOS {
+public:
+    void run() {
+        cout << "-> MacOS" << endl;
     }
 };
 
@@ -29,7 +36,7 @@ public:
     virtual void install(IOS *os) = 0;
 };
 
-class CRedmi : public IComputer {
+class Redmi : public IComputer {
 public:
     void install(IOS *os) {
         cout << "Redmi: ";
@@ -37,7 +44,7 @@ public:
     }
 };
 
-class CDell : public IComputer {
+class Dell : public IComputer {
 public:
     void install(IOS *os) {
         cout << "Dell: ";
@@ -47,21 +54,39 @@ public:
 
 
 /*
-IComputer - IOS
+一维扩展看继承
+多维变化用桥接
 
-IArchive - IFile
+方案整合商 & 操作系统, 多 对 多
+
+多维变化用桥接
+
+桥接: Computer x OS
+
+Computer
+    redmi
+    dell
+    mac
+
+OS
+    linux
+    macos
+    windows
 */
 int main() {
-    IOS *win = new CWindows;
-    IOS *lin = new CLinux;
+    IOS *win = new Windows;
+    IOS *lin = new Linux;
+    IOS *mac = new MacOS;
     
-    IComputer *pRedmi = new CRedmi;
+    IComputer *pRedmi = new Redmi;
     pRedmi->install(win);
     pRedmi->install(lin);
+    pRedmi->install(mac);
 
-    IComputer *pDell = new CDell;
+    IComputer *pDell = new Dell;
     pDell->install(win);
     pDell->install(lin);
+    pDell->install(mac);
 
     return 0;
 }

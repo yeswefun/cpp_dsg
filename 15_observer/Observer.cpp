@@ -7,6 +7,19 @@ using namespace std;
 
 class Subject;
 
+/*
+Member:
+Subject1 s1;
+Subject2 s2;
+...
+
+Method:
+void onChange() {
+    s1.update(...);
+    s2.update(...);
+    ...
+}
+*/
 class Observer {
 public:
     virtual void onXxxChanged(Subject *o, string msg) = 0;
@@ -49,7 +62,10 @@ private:
 
 
 /*
-订阅-发布
+当一个对象的状态发生改变的时候，
+如何让依赖于它的所有对象得到通知，并进行相应的处理?
+
+订阅-发布 的软件架构
     一对多
 */
 int main() {
@@ -57,6 +73,7 @@ int main() {
     Observer *o1 = new ClientObserver;
     Observer *o2 = new ClientObserver;
     Observer *o3 = new ClientObserver;
+
     Subject *s = new ServerSubject;
     s->addObserver(o1);
     s->addObserver(o2);

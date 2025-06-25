@@ -1,12 +1,12 @@
 #include "ExpressNode.h"
 
 
-int ExpressNode::getUse() const {
-    return m_use;
+int ExpressNode::getRefCnt() const {
+    return m_refCnt;
 }
 
-void ExpressNode::setUse(int usel) {
-    m_use = usel;
+void ExpressNode::setRefCnt(int refCnt) {
+    m_refCnt = refCnt;
 }
 
 ExpressNode::~ExpressNode() {
