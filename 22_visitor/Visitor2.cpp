@@ -72,6 +72,7 @@ public:
     }
 };
 
+//Solaris环境配置操作
 class SolarisConfigure : public CellPhoneVisitor {
 public:
     void visit(XiaoMi *p) {
@@ -90,6 +91,8 @@ public:
 
 
 /*
+一个手机配置环境的构建
+
 Visitor
     双重分发
         两个多态
@@ -100,9 +103,12 @@ Visitor
 */
 int main() {
 
-    CellPhoneVisitor *visitor = new SolarisConfigure;
     XiaoMi *xm = new XiaoMi;
     RedMi *rm = new RedMi;
+
+    CellPhoneVisitor *visitor = new SolarisConfigure;
+
+    //将 Solaris 的配置环境 SolarisConfigure 给 XiaoMi 和 RedMi
     xm->accept(visitor);
     rm->accept(visitor);
 

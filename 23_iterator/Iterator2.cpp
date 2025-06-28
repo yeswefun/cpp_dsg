@@ -1,11 +1,11 @@
 #include <iostream>
 #include <vector>
 #include <array>
+
 using namespace std;
 
-
 /*
-STL: STandard Template Library
+STL: Standard Template Library
     算法 与 容器 的隔离 -- Iterator
 */
 int main() {
@@ -19,6 +19,7 @@ int main() {
     }
 
     cout << "************************" << endl;
+
     array<int, 3> a;
     a[0] = 1;
     a[1] = 2;

@@ -84,6 +84,11 @@ public:
 };
 
 
+/*
+一个简单加减法运算器
+
+解释器与数据结构，算法和编译原理的内在关系
+*/
 int main() {
 
     Calculator *p = new Calculator;

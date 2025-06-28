@@ -8,12 +8,14 @@ using namespace std;
 class Handler {
 public:
     Handler() : m_next(nullptr) {}
+
     void setNext(Handler *next) {
         m_next = next;
     }
 
     int handleRequest(double fee) {
         if (handle(fee)) {
+            cout << "ok" << endl;
             return 1;
         } else {
             if (m_next != nullptr) {
@@ -25,6 +27,7 @@ public:
     }
 
     virtual int handle(double fee) = 0;
+
 protected:
     Handler *m_next;
 };
@@ -54,7 +57,16 @@ public:
     }
 };
 
+/*
+过滤器
+    权限检查
+    数据校验
 
+事件冒泡
+    GUI
+
+责任链
+*/
 int main() {
 
     Handler *p1 = new PmHandler;

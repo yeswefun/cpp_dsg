@@ -76,15 +76,15 @@ public:
         m_cmd = cmd;
         m_undo = new NoCommand;
     }
-    void buttonOn() {
+    void onButtonPushed() {
         m_cmd->execute();
         m_undo = m_cmd;
     }
-    void buttonOff() {
+    void offButtonPushed() {
         m_cmd->execute();
         m_undo = m_cmd;
     }
-    void buttonUndo() {
+    void undoButtonPushed() {
         m_undo->undo();
     }
 private:
@@ -92,9 +92,12 @@ private:
     Command* m_undo;
 };
 
+//宏命令: 多个命令
 class MacroCommand : public Command {
 public:
+    
     MacroCommand(vector<Command*> cmdList) : m_cmdList(cmdList) {}
+
     void execute() {
         for (vector<Command*>::iterator it = m_cmdList.begin(); it != m_cmdList.end(); it++) {
             (*it)->execute();
@@ -132,6 +135,7 @@ private:
     Sound *m_sound;
 };
 
+//能够批量执行命令的Control
 class MacroRemoteControl {
 public:
     void setCommand(Command *cmd) {
@@ -157,8 +161,7 @@ Command
     undo
     redo
 
-宏命令
-    多个命令
+宏命令: 多个命令
 */
 int main() {
 
@@ -170,27 +173,25 @@ int main() {
     LightOffCommand *cmdOff = new LightOffCommand(light);
 
     ctl->setCommand(cmdOn);
-    ctl->buttonOn();
-    ctl->buttonUndo();
-    ctl->buttonOff();
-    ctl->buttonUndo();
-
+    ctl->onButtonPushed();
+    ctl->undoButtonPushed();
+   
     ctl->setCommand(cmdOff);
-    ctl->buttonOn();
-    ctl->buttonUndo();
-    ctl->buttonOff();
-    ctl->buttonUndo();
+    ctl->onButtonPushed();
+    ctl->undoButtonPushed();
 
     //宏命令 也是 命令
     vector<Command*> cmdList;
     cmdList.push_back(new SoundOnCommand(new Sound));
     cmdList.push_back(cmdOn);
+
+    cout << "*************** 1" << endl;
     MacroCommand *pMacroCommand = new MacroCommand(cmdList);
     ctl->setCommand(pMacroCommand);
-    ctl->buttonOn();
-    ctl->buttonUndo();
+    ctl->onButtonPushed();
+    ctl->undoButtonPushed();
 
-    cout << "***************" << endl;
+    cout << "*************** 2" << endl;
     MacroRemoteControl *mctl = new MacroRemoteControl;
     mctl->setCommand(pMacroCommand);
     mctl->onCommandStart();

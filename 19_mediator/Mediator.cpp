@@ -5,18 +5,26 @@ using namespace std;
 
 class Colleague;
 
+// 中介者
 class Mediator {
 public:
-    // 通知 Mediator 处理同事对象的交互
+    /*
+        对象在自身改变的情况下，通知 Mediator 进行变更
+        通过 Mediator 处理 同事对象 的交互
+    */
     virtual void changed(Colleague *c) = 0;
 protected:
     Mediator() {}
 };
 
+// 同事
 class Colleague {
 public:
+    
     Colleague() {}
+
     Colleague(Mediator *m) : m_mediator(m) {}
+    
     Mediator* getMediator() {
         return m_mediator;
     }
@@ -27,7 +35,9 @@ private:
 
 class SoundCard : public Colleague {
 public:
+    
     SoundCard(Mediator *m) : Colleague(m) {}
+
     void soundData(string data) {
         cout << "sound: " << data << endl;
     }
@@ -35,7 +45,9 @@ public:
 
 class VideoCard : public Colleague {
 public:
+    
     VideoCard(Mediator *m): Colleague(m) {}
+    
     void videoData(string data) {
         cout << "video: " << data << endl;
     }
@@ -43,10 +55,13 @@ public:
 
 class CPU : public Colleague {
 public:
+    
     CPU(Mediator *m) : Colleague(m) {}
+
     void executeData(string data[]) {
         m_soundData = data[0];
         m_videoData = data[1];
+        //通过 Mediator 处理 同事对象 的交互
         this->getMediator()->changed(this);
     }
 
@@ -84,8 +99,10 @@ public:
     }
 private:
     void openCPU(CPU *cpu) {
+        // MotherBoard -> cpu
         string videoData = cpu->getVideoData();
         string soundData = cpu->getSoundData();
+        // MotherBoard -> soundCard, videoCard
         m_soundCard->soundData(soundData);
         m_videoCard->videoData(videoData);
     }
@@ -97,7 +114,31 @@ private:
 
 
 /*
-中介者
+中介者，调停者 - Mediator
+    封装交互，即插即用
+    
+    多对多关系交互解耦合
+        将变化的集中到一个类中
+
+    换肤
+
+    数据管理列表(增，删，改，查)，涉及多个控件之间的交互
+        列表
+        文本输入框-1
+        文本输入框-2
+        ...
+        按键
+
+MotherBoard - Mediator
+    CPU - Colleague
+    VideoCard - Colleague
+    SoundCard - Colleague
+    RAM - Colleague
+    HardDisk - Colleague
+
+    CPU -> MotherBoard
+        -> RAM
+        -> HardDisk
 */
 int main() {
 

@@ -59,13 +59,11 @@ private:
     Light *m_light;
 };
 
-//空命令
+//空命令，设置命令时(第一次操作)，没有撤消命令
 class NoCommand : public Command {
 public:
-    void execute() {
-    }
-    void undo() {
-    }
+    void execute() {}
+    void undo() {}
 };
 
 //Invoker 可以触发任何命令
@@ -76,15 +74,15 @@ public:
         m_cmd = cmd;
         m_undo = new NoCommand;
     }
-    void buttonOn() {
+    void onButtonPushed() {
         m_cmd->execute();
         m_undo = m_cmd;
     }
-    void buttonOff() {
+    void offButtonPushed() {
         m_cmd->execute();
         m_undo = m_cmd;
     }
-    void buttonUndo() {
+    void undoButtonPushed() {
         m_undo->undo();
     }
 private:
@@ -93,12 +91,7 @@ private:
 };
 
 /*
-Canvas
-    DrawPointCommand
-    DrawLineCommand
-    DrawRectCommand
-    DrawCircleCommand
-Paint
+Undo 撤消操作
 */
 int main() {
 
@@ -109,16 +102,12 @@ int main() {
     LightOffCommand *cmdOff = new LightOffCommand(light);
 
     ctl->setCommand(cmdOn);
-    ctl->buttonOn();
-    ctl->buttonUndo();
-    ctl->buttonOff();
-    ctl->buttonUndo();
+    ctl->onButtonPushed();
+    ctl->undoButtonPushed();
 
     ctl->setCommand(cmdOff);
-    ctl->buttonOn();
-    ctl->buttonUndo();
-    ctl->buttonOff();
-    ctl->buttonUndo();
+    ctl->offButtonPushed();
+    ctl->undoButtonPushed();
 
     return 0;
 }
